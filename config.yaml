@@ -1,0 +1,41 @@
+agent:
+  exploration: 0.1
+  learning_rate: 0.0003
+  strategy_mode: adaptive
+  type: ppo
+constraints:
+  capital_limit: 1000000
+  latency_ms: 20
+  regulatory_constraints: true
+  risk_limit: 0.3
+  slippage: 0.001
+  transaction_cost: 0.002
+rewards:
+  clipping:
+    max: 0.9999
+    min: 0.0001
+  diversification_weight: 0.1
+  drawdown_penalty_weight: 0.2
+  profit_growth_weight: 0.3
+  sharpe_ratio_weight: 0.2
+  stability_weight: 0.2
+scenario:
+  assets:
+  - AAPL
+  - TSLA
+  - BTC
+  - GOLD
+  - ETH
+  market_type: bull
+  max_steps: 100
+  num_episodes: 5
+  objective: Optimize Multi-Asset Strategy Performance
+  seed: 42
+strategy_sandbox:
+  default_rules: "IF sentiment > 0.7 AND trend > 0.01:\n  BUY 10% AAPL\nIF drawdown\
+    \ > 0.05:\n  SELL 50% BTC"
+  hybrid_mode: true
+visualization:
+  persistence_path: results/finomiq_intelligence_run.json
+  real_time_charts: true
+  theme: dark

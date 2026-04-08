@@ -12,17 +12,20 @@ from env.models import Action, Observation, StepResult
 from env.logging_config import setup_logger
 from env.strategy_engine import StrategyDSLEngine
 
+from env.graders import get_grader
+
 logger = setup_logger("FinomIQEnv")
 
 class FinomIQEnv:
     """Production-grade RL platform for financial strategy intelligence."""
 
-    def __init__(self, config_path: str = "config.yaml") -> None:
+    def __init__(self, config_path: str = "config.yaml", task_id: str = "bull_market_growth") -> None:
         with open(config_path, "r") as f:
             self.config = yaml.safe_load(f)
 
+        self.task_id = task_id
         self.assets = self.config["scenario"]["assets"]
-        self.initial_market_type = self.config["scenario"]["market_type"]
+        self.initial_market_type = self._get_market_regime_for_task(task_id)
         self.max_steps = self.config["scenario"]["max_steps"]
         self.base_seed = self.config["scenario"]["seed"]
         
@@ -36,6 +39,14 @@ class FinomIQEnv:
         
         self.episode_count = 0
         self._reset_state()
+
+    def _get_market_regime_for_task(self, task_id: str) -> str:
+        task_regimes = {
+            "bull_market_growth": "bull",
+            "volatile_market_navigation": "volatile",
+            "market_crash_survival": "crash"
+        }
+        return task_regimes.get(task_id, "bull")
 
     def _reset_state(self) -> None:
         self.rng = np.random.default_rng(seed=self.base_seed + self.episode_count)
@@ -276,3 +287,8 @@ class FinomIQEnv:
         obs = self._get_observation().model_dump()
         obs.update({"history": self.history, "trade_history": self.trade_history})
         return obs
+
+    def grade(self) -> float:
+        """Evaluate performance for the current task."""
+        grader = get_grader(self.task_id)
+        return grader(self.history)

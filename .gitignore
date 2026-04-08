@@ -34,8 +34,6 @@ Thumbs.db
 htmlcov/
 
 # UV
-.uv/
-uv.lock
 
 # Misc
 *.log

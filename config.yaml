@@ -26,7 +26,7 @@ scenario:
   - BTC
   - GOLD
   - ETH
-  market_type: bull
+  market_type: volatile
   max_steps: 100
   num_episodes: 5
   objective: Optimize Multi-Asset Strategy Performance

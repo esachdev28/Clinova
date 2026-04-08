@@ -1,8 +1,8 @@
 {
   "run_metadata": {
-    "timestamp": "2026-04-08T19:52:18.800540",
+    "timestamp": "2026-04-08T21:36:51.025701",
     "elapsed_seconds": 0.06,
-    "market_type": "bull",
+    "market_type": "volatile",
     "agent_type": "ppo",
     "num_episodes": 5,
     "max_steps": 100,
@@ -10220,7 +10220,7 @@
         "GOLD",
         "ETH"
       ],
-      "market_type": "bull",
+      "market_type": "volatile",
       "max_steps": 100,
       "num_episodes": 5,
       "objective": "Optimize Multi-Asset Strategy Performance",
